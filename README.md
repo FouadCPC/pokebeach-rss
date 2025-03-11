@@ -8,9 +8,9 @@ Pour vous abonner au flux RSS de PokeBeach:
 
 1. Copiez l'URL suivante:
    ```
-   https://VOTRE-NOM-UTILISATEUR.github.io/pokebeach-rss/pokebeach_rss.xml
+   https://FouadCPC.github.io/pokebeach-rss/pokebeach_rss.xml
    ```
-   (Remplacez VOTRE-NOM-UTILISATEUR par votre nom d'utilisateur GitHub)
+   (Remplacez FouadCPC par votre nom d'utilisateur GitHub)
 
 2. Collez cette URL dans votre lecteur RSS préféré
 
