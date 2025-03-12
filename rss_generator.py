@@ -139,6 +139,9 @@ def create_rss(username, tweets, output_file="pokebeach_rss.xml"):
     print(f"Flux RSS créé avec succès dans le fichier {output_file}")
     return output_file
 
+# Remplacez la partie de la génération de index.html dans rss_generator.py par celle-ci
+# Vous n'avez besoin de modifier que cette partie du script, le reste reste inchangé
+
 def main():
     username = "pokebeach"
     
@@ -154,6 +157,11 @@ def main():
     # Génération du flux RSS principal
     output_file = "pokebeach_rss.xml"
     create_rss(username, tweets, output_file)
+    
+    # Récupérer le nom d'utilisateur GitHub depuis les variables d'environnement ou utiliser une valeur par défaut
+    github_repo = os.environ.get('GITHUB_REPOSITORY', '').split('/')
+    github_username = github_repo[0] if len(github_repo) > 0 else 'VOTRE-NOM-UTILISATEUR'
+    repo_name = github_repo[1] if len(github_repo) > 1 else 'pokebeach-rss'
     
     # Génération d'une page HTML simple avec un lien vers le flux RSS
     with open("index.html", "w", encoding="utf-8") as f:
@@ -171,6 +179,7 @@ def main():
         .rss-link {{ display: inline-block; background: #FF9800; color: white; padding: 10px 15px;
                     text-decoration: none; border-radius: 5px; margin-top: 15px; }}
         .refresh-info {{ margin-top: 30px; font-size: 0.9em; color: #888; }}
+        code {{ background: #eee; padding: 2px 4px; border-radius: 3px; }}
     </style>
 </head>
 <body>
@@ -183,7 +192,7 @@ def main():
         <div class="info">
             <p>Pour utiliser ce flux RSS:</p>
             <ol>
-                <li>Copiez l'URL: <code>https://votre-nom.github.io/pokebeach-rss/{output_file}</code></li>
+                <li>Copiez l'URL: <code>https://{github_username}.github.io/{repo_name}/{output_file}</code></li>
                 <li>Collez cette URL dans votre lecteur RSS préféré</li>
             </ol>
         </div>
