@@ -14,6 +14,8 @@ on:
 
 permissions:
   contents: write
+  pages: write
+  id-token: write
 
 jobs:
   update-rss:
@@ -22,8 +24,6 @@ jobs:
     steps:
     - name: Checkout repository
       uses: actions/checkout@v3
-      with:
-        fetch-depth: 0  # Récupère tout l'historique pour éviter les erreurs de commit
       
     - name: Set up Python
       uses: actions/setup-python@v4
@@ -42,6 +42,31 @@ jobs:
       run: |
         git config --global user.name 'GitHub Actions'
         git config --global user.email 'actions@github.com'
-        git add -A
-        git diff --staged --quiet || git commit -m "Mise à jour automatique du flux RSS: $(date -u)"
+        git add pokebeach_rss.xml index.html
+        timestamp=$(date -u)
+        git commit -m "Mise à jour automatique du flux RSS: ${timestamp}" || exit 0
         git push
+
+  deploy:
+    needs: update-rss
+    runs-on: ubuntu-latest
+    
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    
+    steps:
+    - name: Checkout
+      uses: actions/checkout@v3
+      
+    - name: Setup Pages
+      uses: actions/configure-pages@v3
+      
+    - name: Upload artifact
+      uses: actions/upload-pages-artifact@v2
+      with:
+        path: '.'
+        
+    - name: Deploy to GitHub Pages
+      id: deployment
+      uses: actions/deploy-pages@v2
